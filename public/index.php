@@ -10,6 +10,8 @@ require_once __DIR__ . '/../config/config.php';
 // header("Content-Type: application/json; charset=UTF-8");
 
 // Создаем соединение с базой данных
+session_start(); 
+
 use App\Database\Database;
 
 $pdo = Database::getConnection();

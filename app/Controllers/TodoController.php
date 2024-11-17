@@ -120,6 +120,11 @@ class TodoController {
     }
 
     private function getUserFromToken() {
+        if (isset($_SESSION['user_id_refresh_token'])) {
+            return $_SESSION['user_id_refresh_token'];
+           // unset($_SESSION['user_id_refresh_token']);
+        }
+
         $headers = apache_request_headers();
         $token = $headers['Authorization'] ?? '';
         $token = str_replace('Bearer ', '', $token);

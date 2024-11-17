@@ -31,12 +31,23 @@ class Router {
                 // Применяем middleware
                 // Применяем middleware
                 foreach ($route['middleware'] as $middleware) {
-                    // var_dump($middleware);  // Для дебага
-                    // Проверяем, существует ли класс и вызываем его
+                    // Проверяем, существует ли класс middleware
                     if (class_exists($middleware)) {
-                        $response = $middleware::handle($request); // Передаем объект запроса
-                        if ($response) {
-                            //   echo $response;  // Отправка ответа, если middleware вернул результат
+                        // Создаем экземпляр middleware
+                        $middlewareInstance = new $middleware();
+
+                        // Проверяем, существует ли метод handle в этом middleware
+                        if (method_exists($middlewareInstance, 'handle')) {
+                            // Вызываем метод handle и передаем запрос
+                            $response = $middlewareInstance->handle($request);
+
+                            // Если middleware вернул ответ, прерываем выполнение
+                            if ($response) {
+                                echo $response; // Отправка ответа от middleware
+                                return;
+                            }
+                        } else {
+                            echo "Method 'handle' not found in middleware class: " . $middleware;
                             return;
                         }
                     } else {
