@@ -1,0 +1,34 @@
+RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteEngine On
+
+# Сохраняем заголовок Authorization в переменную
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Устанавливаем базовый путь, если проект в подкаталоге
+RewriteBase /dev_02.todo-php-rest-crud-1/
+
+# Отключаем индексацию каталогов
+Options -Indexes
+
+# Правила для API маршрутов
+
+# Для api/auth/(login|register|refresh) перенаправление на api/auth.php
+RewriteRule ^api/auth/(login|register|refresh)$ api/auth.php [QSA,L]
+
+# Для api/todos/{id} перенаправление на api/todos.php с параметром id
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/todos/([0-9]+)$ api/todos.php?id=$1 [QSA,L]
+
+# Для api/todos без ID, перенаправление на api/todos.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/todos$ api/todos.php [QSA,L]
+
+# Перенаправление всех других запросов на index.php в public
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA,L]
