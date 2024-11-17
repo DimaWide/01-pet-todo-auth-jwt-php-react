@@ -14,7 +14,7 @@ class AuthMiddleware
     public static function handle($request)
     {
         $authHeader = $request->getHeader('Authorization'); // Получаем заголовок Authorization
-        var_dump($authHeader);
+        // var_dump($authHeader);
 
         if (empty($authHeader)) {
             // Если заголовка нет, возвращаем ошибку
@@ -28,6 +28,8 @@ class AuthMiddleware
         }
 
         $jwt = $matches[1]; // Токен после "Bearer"
+        error_log("Authorization header: " . print_r( $jwt , true)); 
+        // $decoded = JWT::decode($token, new Key($secret_key, 'HS256'));
 
         try {
             // Проверяем валидность токена через сервис JWT

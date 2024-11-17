@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Функция для проверки валидности JWT
 function isTokenValid(token) {
-    true
+    return true;
     // Разбираем токен (JWT состоит из 3 частей, разделённых точками)
     const [header, payload, signature] = token.split('.');
 

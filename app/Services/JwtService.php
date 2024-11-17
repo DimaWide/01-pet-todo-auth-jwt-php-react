@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use \Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class JwtService {
 
     // Секретный ключ для подписи JWT токенов
-    private $secretKey = 'your-secret-key';
+    private static $secretKey = 'default_secret_key';
 
     // Время жизни токена (например, 3600 секунд = 1 час)
     private $issuedAt;
@@ -19,11 +20,11 @@ class JwtService {
     }
 
     public static function encode($payload) {
-        return JWT::encode($payload, self::$secretKey);
+        return JWT::encode($payload, self::$secretKey, 'HS256');
     }
 
     public static function decode($jwt) {
-        return (array)JWT::decode($jwt, self::$secretKey, ['HS256']);
+        return JWT::decode($jwt, new Key(self::$secretKey, 'HS256'));
     }
 
     // Создание JWT токена
@@ -37,23 +38,37 @@ class JwtService {
         ];
 
         // Подпись и создание токена
-        return JWT::encode($payload, $this->secretKey);
+        return JWT::encode($payload, self::$secretKey, 'HS256');
     }
 
     // Верификация JWT токена
-    public function verifyToken($token) {
+    // public function verifyToken($token) {
+    //     try {
+    //         // Расшифровка токена и верификация
+    //         $decoded = JWT::decode($token, new Key(self::$secretKey, 'HS256'));
+    //         return (array) $decoded; // Возвращаем расшифрованные данные токена
+    //     } catch (\Exception $e) {
+    //         return false; // Если токен невалиден
+    //     }
+    // }
+
+    // Метод для верификации токена
+    public static function verifyToken($token) {
         try {
-            // Расшифровка токена и верификация
-            $decoded = JWT::decode($token, $this->secretKey, ['HS256']);
-            return (array) $decoded; // Возвращаем расшифрованные данные токена
+            // Расшифровка и верификация токена
+            $decoded = JWT::decode($token, new Key(self::$secretKey, 'HS256'));
+
+            // Возвращаем расшифрованные данные из токена
+            return (array) $decoded; // (array) для того чтобы привести объект в массив
         } catch (\Exception $e) {
-            return false; // Если токен невалиден
+            // Если токен невалиден или произошла ошибка при расшифровке, возвращаем false
+            return false;
         }
     }
 
     // Извлечение данных из токена
     public function getDataFromToken($token) {
-        $decoded = $this->verifyToken($token);
+        $decoded = self::verifyToken($token);
         return $decoded ? $decoded : null;
     }
 }

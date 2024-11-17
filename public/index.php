@@ -27,12 +27,12 @@ $router->add('POST', '/api/auth/login', 'AuthController@login');
 $router->add('POST', '/api/auth/register', 'AuthController@register');
 
 // // Роуты для задач (с middleware)
-$authMiddleware = [\App\Middleware\AuthMiddleware::class, 'handle'];
-$router->add('GET', '/api/todos', 'TodoController@index', $authMiddleware);
-$router->add('GET', '/api/todos/{id}', 'TodoController@show', $authMiddleware);
-$router->add('POST', '/api/todos', 'TodoController@create', $authMiddleware);
-$router->add('PUT', '/api/todos/{id}', 'TodoController@update', $authMiddleware);
-$router->add('DELETE', '/api/todos/{id}', 'TodoController@delete', $authMiddleware);
+$router->add('GET', '/api/todos', 'TodoController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->add('GET', '/api/todos/{id}', 'TodoController@show', [\App\Middleware\AuthMiddleware::class]);
+$router->add('POST', '/api/todos', 'TodoController@create', [\App\Middleware\AuthMiddleware::class]);
+$router->add('PUT', '/api/todos/{id}', 'TodoController@update', [\App\Middleware\AuthMiddleware::class]);
+$router->add('DELETE', '/api/todos/{id}', 'TodoController@delete', [\App\Middleware\AuthMiddleware::class]);
+
 
 // Запуск маршрутов
 $router->run();

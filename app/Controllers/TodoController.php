@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Controllers;
+
+use App\Services\JwtService;
 
 use App\Models\Todo;  // Подключаем модель Todo
 
@@ -11,12 +14,15 @@ class TodoController {
         $this->todoModel = new Todo();
     }
 
-    public function getAllTodos($user_id) {
+    // Получение всех задач
+    public function index($user_id) {
+        $user_id = $this->getUserFromToken();
         $todos = $this->todoModel->getAll($user_id);
         echo json_encode($todos);
     }
 
-    public function getTodoById($id, $user_id) {
+    // Получение задачи по ID
+    public function show($id, $user_id) {
         $todo = $this->todoModel->getById($id, $user_id);
         if ($todo) {
             echo json_encode($todo);
@@ -25,24 +31,45 @@ class TodoController {
         }
     }
 
-    public function createTodo() {
-        $user = $this->getUserFromToken();
-        if (!$user) {
-            $this->sendError("Unauthorized", 401);
+    public function create() {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        // Проверка на ошибки при декодировании JSON
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->sendError("Invalid JSON provided.", 400);
         }
 
-        $data = json_decode(file_get_contents("php://input"), true);
+        // Проверка наличия обязательного поля 'title'
         if (!isset($data['title'])) {
             $this->sendError("Title field is required.", 400);
         }
 
-        $id = $this->todoModel->create($data, $user->user_id);
+        // Получаем user_id из токена
+        $user_id = $this->getUserFromToken();
+
+        if (!$user_id) {
+            $this->sendError("Unauthorized", 401);
+        }
+
+        // Извлекаем необходимые данные из массива $data
+        $title = $data['title'];
+        // Преобразуем значение completed в 0 или 1
+        $completed = isset($data['completed']) ? (int)$data['completed'] : 0;  // Если не указан, считаем, что задача не завершена
+
+        // Создаем новую задачу, передавая правильные параметры
+        $id = $this->todoModel->create($title, $completed, $user_id);
         echo json_encode(['id' => $id] + $data);
     }
 
-    public function updateTodoById($id, $data) {
-        $user = $this->getUserFromToken();
-        if (!$user) {
+
+    // Обновление задачи по ID
+    public function update($data) {
+        $id = $this->getTodoId();
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $user_id = $this->getUserFromToken();
+        if (!$user_id) {
             $this->sendError("Unauthorized", 401);
         }
 
@@ -50,7 +77,17 @@ class TodoController {
             $this->sendError("No data provided for update.", 400);
         }
 
-        $updated = $this->todoModel->update($id, $data, $user->user_id);
+        // Проверяем и извлекаем данные из массива $data
+        $title = isset($data['title']) ? $data['title'] : null;
+        $completed = isset($data['completed']) ? (int)$data['completed'] : 0;  // Если не указан, считаем, что задача не завершена
+
+        // Убедимся, что хотя бы одно из полей (title или completed) передано
+        if (is_null($title) && is_null($completed)) {
+            $this->sendError("At least one of 'title' or 'completed' must be provided for update.", 400);
+        }
+
+        // Обновление задачи в базе данных
+        $updated = $this->todoModel->update($id, $title, $completed, $user_id);
         if ($updated) {
             echo json_encode(["message" => "Task updated successfully"]);
         } else {
@@ -58,13 +95,17 @@ class TodoController {
         }
     }
 
-    public function deleteTodoById($id) {
-        $user = $this->getUserFromToken();
-        if (!$user) {
+    // Удаление задачи по ID
+    public function delete() {
+        $id = $this->getTodoId();
+        $user_id = $this->getUserFromToken();
+
+        if (!$user_id) {
             $this->sendError("Unauthorized", 401);
         }
 
-        $deleted = $this->todoModel->delete($id, $user->user_id);
+        $deleted = $this->todoModel->delete($id, $user_id);
+
         if ($deleted) {
             echo json_encode(["message" => "Task deleted successfully"]);
         } else {
@@ -81,6 +122,20 @@ class TodoController {
     private function getUserFromToken() {
         $headers = apache_request_headers();
         $token = $headers['Authorization'] ?? '';
-        return validate_token(str_replace('Bearer ', '', $token));
+        $token = str_replace('Bearer ', '', $token);
+        $userData = JwtService::verifyToken($token);
+        return $userData['user_id'];
+    }
+
+    private function getTodoId() {
+        $request_uri = $_SERVER['REQUEST_URI'];
+        preg_match('/\/todos\/(\d+)/', $request_uri, $matches);
+        $id = null;
+
+        if (isset($matches[1])) {
+            $id = (int)$matches[1];
+        }
+
+        return $id;
     }
 }

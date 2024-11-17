@@ -33,7 +33,7 @@ class Todo
     }
 
     // Создать новую задачу
-    public function create(string $title, bool $completed, int $userId): int
+    public function create(string $title, int $completed, int $userId): int
     {
         $stmt = $this->pdo->prepare("INSERT INTO todos (title, completed, user_id) VALUES (:title, :completed, :user_id)");
         $stmt->execute([
@@ -45,7 +45,7 @@ class Todo
     }
 
     // Обновить задачу
-    public function update(int $id, string $title, bool $completed, int $userId): int
+    public function update(int $id, string $title, int $completed, int $userId): int
     {
         $stmt = $this->pdo->prepare("UPDATE todos SET title = :title, completed = :completed WHERE id = :id AND user_id = :user_id");
         $stmt->execute([

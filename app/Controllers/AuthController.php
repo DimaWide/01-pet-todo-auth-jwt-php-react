@@ -32,7 +32,7 @@ class AuthController {
         // var_dump($data['password']);
         if ($user && password_verify($data['password'], $user['password'])) {
             $issuedAt = time();
-            $accessExpirationTime = $issuedAt + 15 * 60; // 15 минут
+            $accessExpirationTime = $issuedAt + 60 * 60; // 15 минут
             $refreshExpirationTime = $issuedAt + 7 * 24 * 60 * 60; // 7 дней
 
             // Платежи для Access и Refresh токенов
