@@ -1,0 +1,155 @@
+@mixin link_hover($hover-opacity: 0.65) {
+    transition: all 0.25s ease;
+
+    &:hover {
+        opacity: $hover-opacity;
+    }
+}
+
+.sct-jwt {
+    text-align: center;
+
+    .data-countdown {
+        font-size: 30px;
+    }
+
+    .data-content {
+        display: inline-block;
+        width: auto;
+        text-align: center;
+        /* min-height: 300px; */
+        padding: 50px;
+        margin-bottom: 0;
+    }
+}
+
+.sct-1-login {
+    .data-content {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+
+.sct-3-register {
+    .data-content {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+
+.container {
+    max-width: unset
+}
+
+.message {
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+.message.error {
+    color: red
+}
+
+.message.success {
+    color: green
+}
+
+.sct-1-login .data-subtitle {
+    margin-bottom: 10px
+}
+
+.sct-1-login .data-have-account {
+    text-align: center
+}
+
+.sct-1-login .data-have-account a {
+    font-weight: 500
+}
+
+.sct-3-register .data-subtitle {
+    margin-bottom: 10px
+}
+
+.sct-3-register .data-have-account {
+    text-align: center
+}
+
+.sct-3-register .data-have-account a {
+    font-weight: 500
+}
+
+.sct-2-tasks .data-form input {
+    margin-bottom: 0
+}
+
+.sct-2-tasks .data-form-submit {
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.sct-2-tasks form {
+    margin-bottom: 20px
+}
+
+.sct-2-tasks label {
+    display: block;
+    margin: 10px 0 5px
+}
+
+.sct-2-tasks input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px
+}
+
+.sct-2-tasks button {
+    background-color: #35424a;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px
+}
+
+.sct-2-tasks button:hover {
+    background-color: #444
+}
+
+.sct-2-tasks ul {
+    list-style: none;
+    padding: 0
+}
+
+.sct-2-tasks li {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+/*# sourceMappingURL=styles.min.css.map */

@@ -1,0 +1,24 @@
+[02-Feb-2025 14:26:27 Europe/Moscow] PHP Warning:  require_once(E:\OpenServer\domains\dev.todo//app/views/content/tasks.php): Failed to open stream: No such file or directory in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:27 Europe/Moscow] PHP Fatal error:  Uncaught Error: Failed opening required 'E:\OpenServer\domains\dev.todo//app/views/content/tasks.php' (include_path='.') in E:\OpenServer\domains\dev.todo\public\index.php:145
+Stack trace:
+#0 E:\OpenServer\domains\dev.todo\public\index.php(73): handlePageRequest()
+#1 {main}
+  thrown in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:34 Europe/Moscow] PHP Warning:  require_once(E:\OpenServer\domains\dev.todo//app/views/content/tasks.php): Failed to open stream: No such file or directory in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:34 Europe/Moscow] PHP Fatal error:  Uncaught Error: Failed opening required 'E:\OpenServer\domains\dev.todo//app/views/content/tasks.php' (include_path='.') in E:\OpenServer\domains\dev.todo\public\index.php:145
+Stack trace:
+#0 E:\OpenServer\domains\dev.todo\public\index.php(73): handlePageRequest()
+#1 {main}
+  thrown in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:38 Europe/Moscow] PHP Warning:  require_once(E:\OpenServer\domains\dev.todo//app/views/content/tasks.php): Failed to open stream: No such file or directory in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:38 Europe/Moscow] PHP Fatal error:  Uncaught Error: Failed opening required 'E:\OpenServer\domains\dev.todo//app/views/content/tasks.php' (include_path='.') in E:\OpenServer\domains\dev.todo\public\index.php:145
+Stack trace:
+#0 E:\OpenServer\domains\dev.todo\public\index.php(73): handlePageRequest()
+#1 {main}
+  thrown in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:39 Europe/Moscow] PHP Warning:  require_once(E:\OpenServer\domains\dev.todo//app/views/content/tasks.php): Failed to open stream: No such file or directory in E:\OpenServer\domains\dev.todo\public\index.php on line 145
+[02-Feb-2025 14:26:39 Europe/Moscow] PHP Fatal error:  Uncaught Error: Failed opening required 'E:\OpenServer\domains\dev.todo//app/views/content/tasks.php' (include_path='.') in E:\OpenServer\domains\dev.todo\public\index.php:145
+Stack trace:
+#0 E:\OpenServer\domains\dev.todo\public\index.php(73): handlePageRequest()
+#1 {main}
+  thrown in E:\OpenServer\domains\dev.todo\public\index.php on line 145
