@@ -1,4 +1,4 @@
-## JWT Authentication with Token Expiry Countdown & Todo Task Rest Aoi
+## JWT Authentication with Token Expiry Countdown & Todo Task Rest Api
 
 This project implements a web application with JWT-based authentication, token expiration management, and a REST API for managing Todo tasks. It includes features for user registration, login, session management, task creation, updating, and deletion, with a countdown timer to notify users about token expiration.
 
